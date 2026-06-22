@@ -5,6 +5,27 @@ const form = document.getElementById('task-form');
 const input = document.getElementById('task-input');
 const list = document.getElementById('task-list');
 const errorMsg = document.getElementById('error-msg');
+const themeToggle = document.getElementById('theme-toggle');
+
+// Cargar tema guardado
+function loadTheme() {
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  if (savedTheme === 'dark') {
+    document.documentElement.classList.add('dark-mode');
+    themeToggle.textContent = '☀️';
+  } else {
+    document.documentElement.classList.remove('dark-mode');
+    themeToggle.textContent = '🌙';
+  }
+}
+
+// Toggle tema oscuro/claro
+themeToggle.addEventListener('click', () => {
+  const isDarkMode = document.documentElement.classList.toggle('dark-mode');
+  const theme = isDarkMode ? 'dark' : 'light';
+  localStorage.setItem('theme', theme);
+  themeToggle.textContent = isDarkMode ? '☀️' : '🌙';
+});
 
 // Renderiza todas las tareas en el DOM
 function renderTasks() {
@@ -68,6 +89,9 @@ function showError(msg) {
     errorMsg.textContent = '';
   }, 3000);
 }
+
+// Cargar tema al iniciar
+loadTheme();
 
 // Render inicial (por si hay tareas pre-cargadas)
 renderTasks();
